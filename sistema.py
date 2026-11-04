@@ -94,51 +94,58 @@ class ComputadoraGamerPortatil(ComputadoraGamer):
 
 
 # Instanciación y pruebas: 1 objeto de la clase base y 2 de la subclase
-pc1 = ComputadoraGamer("Alienware", "AMD Ryzen 7", 32, "RTX 4070")
-laptop1 = ComputadoraGamerPortatil("ASUS ROG", "Intel i7", 16, "RTX 3060", 5, 2.3)
-laptop2 = ComputadoraGamerPortatil("HP Omen", "Intel i5", 8, "GTX 1660", 4, 2.5)
+pc1 = ComputadoraGamerPortatil("ASUS ROG", "Intel i7", 16, "RTX 3060", 5, 2.3)
+pc2 = ComputadoraGamer("Alienware", "AMD Ryzen 7", 32, "RTX 4070")
+pc3 = ComputadoraGamerPortatil("HP Omen", "Intel i5", 8, "GTX 1660", 4, 2.5)
+
+# Prueba de Herencia: pc1 y pc3 usan métodos heredados de la clase base.
+# encender() y jugar() ejecutan la versión sobrescrita en las portátiles.
+print("ASUS ROG")
+pc1.encender()
+pc1.jugar("Valorant")
+pc1.actualizar_ram(32)
+
+print("\n Alienware ")
+pc2.encender()
+pc2.jugar("Cyberpunk 2077")
+
+print("\n HP Omen ")
+pc3.encender()
+pc3.cambiar_tarjeta_grafica("RTX 2060")
+pc3.jugar("Minecraft")
 
 # Prueba de Encapsulamiento: consulta y cambio controlado de la RAM
-print("--- Encapsulamiento ---")
-print(f"RAM de {pc1.marca} consultada con el getter: {pc1.memoria_ram}GB")
-pc1.actualizar_ram(64)
+print("\n Encapsulamiento ")
+print(f"RAM de {pc2.marca} consultada con el getter: {pc2.memoria_ram}GB")
 
 # El setter rechaza valores no válidos y la RAM conserva su valor
 for valor_invalido in (-8, 0, "mucha"):
     try:
-        pc1.memoria_ram = valor_invalido
+        pc2.memoria_ram = valor_invalido
     except ValueError as error:
         print(f"Error controlado: {error}")
-print(f"La RAM de {pc1.marca} sigue en {pc1.memoria_ram}GB")
+print(f"La RAM de {pc2.marca} sigue en {pc2.memoria_ram}GB")
 
 # El atributo privado no se puede leer directamente desde fuera de la clase
 try:
-    print(pc1.__memoria_ram)
+    print(pc2.__memoria_ram)
 except AttributeError:
     print("No se puede leer __memoria_ram desde fuera: es un atributo privado")
 
-# Prueba de Herencia: la subclase usa métodos heredados sin redefinirlos
-print("\n--- Herencia ---")
-laptop2.actualizar_ram(16)
-laptop2.cambiar_tarjeta_grafica("RTX 2060")
-
 # Prueba de Polimorfismo: la misma llamada ejecuta el método de cada clase
-print("\n--- Polimorfismo ---")
-for computadora in (pc1, laptop1, laptop2):
-    computadora.encender()
-    computadora.jugar("Valorant")
+print("\n Polimorfismo ")
+for computadora in (pc1, pc2, pc3):
     print(computadora.describir())
-    print()
 
 # Prueba del método propio y de la restricción de batería
-print("--- Batería de la subclase ---")
-laptop1.jugar("Cyberpunk 2077")
-laptop1.jugar("Minecraft")
-laptop1.cargar_bateria()
-laptop1.jugar("Minecraft")
+print("\n Batería de la portátil ")
+pc1.jugar("Cyberpunk 2077")
+pc1.jugar("Minecraft")
+pc1.cargar_bateria()
 
 # Prueba de independencia: cada objeto guarda sus datos en su propio self
-print("\n--- Independencia de los objetos (self) ---")
-print(f"{pc1.marca}: {pc1.memoria_ram}GB de RAM y {pc1.tarjeta_grafica}")
-print(f"{laptop1.marca}: {laptop1.memoria_ram}GB de RAM, {laptop1.tarjeta_grafica} y {laptop1.porcentaje_bateria}% de batería")
-print(f"{laptop2.marca}: {laptop2.memoria_ram}GB de RAM, {laptop2.tarjeta_grafica} y {laptop2.porcentaje_bateria}% de batería")
+print("\n Cada computadora guarda su propia información (su propio self) ")
+print(f"{pc1.marca} tiene {pc1.memoria_ram}GB de RAM y {pc1.tarjeta_grafica}")
+print(f"{pc2.marca} tiene {pc2.memoria_ram}GB de RAM y {pc2.tarjeta_grafica}")
+print(f"{pc3.marca} tiene {pc3.memoria_ram}GB de RAM y {pc3.tarjeta_grafica}")
+print(f"Batería de {pc1.marca}: {pc1.porcentaje_bateria}% | Batería de {pc3.marca}: {pc3.porcentaje_bateria}%")
